@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Image Generator</title>
+    <title>The Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
         }
 
         body {
-  font-family: "DM Mono", monospace;
-            background: #0a0a0a;
+            font-family: "DM Mono", monospace;
+            background: #000000;
             color: #e0e0e0;
             min-height: 100vh;
             padding: 0;
@@ -37,17 +37,22 @@
         }
 
         .logo {
-            width: 40px;
-            height: 40px;
+            width: 200px;
+            height: 200px;
             flex-shrink: 0;
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            transition: none;
+                object-fit: contain;
+
         }
 
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
         .header-content {
             flex: 1;
             display: flex;
@@ -72,6 +77,25 @@
 
         .twitter-link:hover {
             color: #ffffff;
+        }
+
+        .explanation {
+            margin: -40px 0 60px 0;
+            padding: 24px;
+            background: #111111;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            color: #999999;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .explanation p {
+            margin-bottom: 12px;
+        }
+
+        .explanation p:last-child {
+            margin-bottom: 0;
         }
 
         .main-layout {
@@ -450,10 +474,17 @@
                 <img src="logo.png" alt="Logo">
             </div>
             <div class="header-content">
-                <h1>AI Image Generator</h1>
+                <h1>The Generator</h1>
                 <a href="https://twitter.com/yourhandle" class="twitter-link" target="_blank" rel="noopener noreferrer">@yourhandle</a>
             </div>
         </header>
+<div class="explanation">
+  <p><strong>The Generator</strong> creates the meta memes live, in real time. Submit your idea, join the queue, and watch the magic happen as memes are generated one by one.</p>
+  <p>Your spot in line updates automatically, so you can see exactly when it's your turn. When it is, your meme will appear instantly in the live feed and be added to the public archive.</p>
+  <p><em>How it works:</em> Type your prompt. Wait your turn. Witness the meme machine in motion.</p>
+</div>
+
+
 
         <div class="main-layout">
             <div class="left-column">
@@ -512,6 +543,37 @@
     </div>
 
     <script type="module">
+        // Logo bouncing animation
+        const logo = document.querySelector('.logo');
+        let x = Math.random() * (window.innerWidth - 40);
+        let y = Math.random() * (window.innerHeight - 40);
+        let dx = (Math.random() - 0.5) * 4;
+        let dy = (Math.random() - 0.5) * 4;
+        const speed = 2;
+
+        function animateLogo() {
+            x += dx * speed;
+            y += dy * speed;
+
+            // Bounce off edges
+            if (x <= 0 || x >= window.innerWidth - 40) {
+                dx = -dx;
+                x = Math.max(0, Math.min(x, window.innerWidth - 40));
+            }
+            if (y <= 0 || y >= window.innerHeight - 40) {
+                dy = -dy;
+                y = Math.max(0, Math.min(y, window.innerHeight - 40));
+            }
+
+            logo.style.left = x + 'px';
+            logo.style.top = y + 'px';
+
+            requestAnimationFrame(animateLogo);
+        }
+
+        animateLogo();
+
+        // Firebase setup
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAnalytics } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js';
